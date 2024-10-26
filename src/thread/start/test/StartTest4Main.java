@@ -6,7 +6,7 @@ public class StartTest4Main {
 
     public static void main(String[] args) {
         Thread threadA = new Thread(new PrintWork("A", 1000), "Thread-A");
-        Thread threadB = new Thread(new PrintWork("B", 500), "Thread-A");
+        Thread threadB = new Thread(new PrintWork("B", 500), "Thread-B");
         threadA.start();
         threadB.start();
     }
@@ -16,9 +16,9 @@ public class StartTest4Main {
         private final String content;
         private final long sleepMs;
 
-        public PrintWork(String content, long millis) {
+        public PrintWork(String content, long sleepMs) {
             this.content = content;
-            this.sleepMs = millis;
+            this.sleepMs = sleepMs;
         }
 
         @Override
