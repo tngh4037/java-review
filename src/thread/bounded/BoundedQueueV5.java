@@ -8,15 +8,16 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static thread.util.MyLogger.log;
 
-public class BoundedQueueV4 implements BoundedQueue {
+public class BoundedQueueV5 implements BoundedQueue {
 
     private final Lock lock = new ReentrantLock();
-    private final Condition condition = lock.newCondition(); // 대기 집합
+    private final Condition producerCondition = lock.newCondition(); // 생산자 대기 집합
+    private final Condition consumerCondition = lock.newCondition(); // 소비자 대기 집합
 
     private final Queue<String> queue = new ArrayDeque<>();
     private final int max;
 
-    public BoundedQueueV4(int max) {
+    public BoundedQueueV5(int max) {
         this.max = max;
     }
 
@@ -29,7 +30,7 @@ public class BoundedQueueV4 implements BoundedQueue {
                 log("[put] 큐가 가득 참, 생산자 대기");
 
                 try {
-                    condition.await(); // RUNNABLE -> WAITING, 락 반납
+                    producerCondition.await(); // RUNNABLE -> WAITING, 락 반납
                     log("[put] 생산자 깨어남");
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -37,8 +38,9 @@ public class BoundedQueueV4 implements BoundedQueue {
             }
 
             queue.offer(data);
-            log("[put] 생산자 데이터 저장, signal() 호출");
-            condition.signal(); // 대기 스레드 깨움
+            log("[put] 생산자 데이터 저장, " +
+                    "consumerCondition.signal() 호출");
+            consumerCondition.signal(); // 소비자 대기 스레드 깨움
         } finally {
             lock.unlock();
         }
@@ -52,7 +54,7 @@ public class BoundedQueueV4 implements BoundedQueue {
             while (queue.isEmpty()) {
                 log("[take] 큐에 데이터가 없음, 소비자 대기");
                 try {
-                    condition.await(); // RUNNABLE -> WAITING, 락 반납
+                    consumerCondition.await(); // RUNNABLE -> WAITING, 락 반납
                     log("[take] 소비자 깨어남");
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -60,8 +62,9 @@ public class BoundedQueueV4 implements BoundedQueue {
             }
 
             String data = queue.poll();
-            log("[take] 소비자 데이터 획득, signal() 호출");
-            condition.signal(); // 대기 스레드 깨움
+            log("[take] 소비자 데이터 획득, " +
+                    "producerCondition.signal() 호출");
+            producerCondition.signal(); // 생산자 대기 스레드 깨움
             return data;
         } finally {
             lock.unlock();
