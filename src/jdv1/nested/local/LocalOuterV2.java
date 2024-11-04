@@ -21,6 +21,7 @@ public class LocalOuterV2 {
 
         LocalPrinter printer = new LocalPrinter();
         printer.print();
+        System.out.println("printer.class = " + printer.getClass());
     }
 
     public static void main(String[] args) {
