@@ -1,4 +1,4 @@
-package adv2.network.tcp.v5;
+package adv2.network.tcp.v6;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 import static adv2.util.MyLogger.log;
 
-public class ClientV5 {
+public class ClientV6 {
 
     private static final int PORT = 12345; // server port
 
