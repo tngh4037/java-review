@@ -22,7 +22,7 @@ public class ResourceCloseMainV1 {
         resource2.callEx(); // CallException
 
         System.out.println("자원 정리"); // 호출 안됨
-        resource1.closeEx();
         resource2.closeEx();
+        resource1.closeEx();
     }
 }
