@@ -10,7 +10,7 @@ public class BasicData {
     }
 
     private BasicData(String data) {
-        System.out.println("BasicData.BasicData");
+        System.out.println("BasicData.BasicData: " + data);
     }
 
     public void call() {
