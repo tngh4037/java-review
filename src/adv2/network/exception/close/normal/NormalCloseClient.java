@@ -44,7 +44,7 @@ public class NormalCloseClient {
         try {
             dis.readUTF();
         } catch (EOFException e) {
-
+            log(e);
         } finally {
             dis.close();
             socket.close();
