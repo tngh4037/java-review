@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-// DispatcherServlet (?)
 public class ServletManager {
     private final Map<String, HttpServlet> servletMap = new HashMap<>();
     private HttpServlet defaultServlet;
