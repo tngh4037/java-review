@@ -1,13 +1,12 @@
-package adv2.was.v7;
+package adv2.was.v8;
 
-import adv2.was.httpserver.HttpRequest;
 import adv2.was.httpserver.HttpResponse;
 import adv2.was.httpserver.servlet.annotation.Mapping;
 
-public class SiteControllerV7 {
+public class SiteControllerV8 {
 
     @Mapping("/")
-    public void home(HttpRequest request, HttpResponse response) {
+    public void home(HttpResponse response) {
         response.writeBody("<h1>home</h1>");
         response.writeBody("<ul>");
         response.writeBody("<li><a href='/site1'>site1</a></li>");
@@ -17,13 +16,12 @@ public class SiteControllerV7 {
     }
 
     @Mapping("/site1")
-    public void page1(HttpRequest request, HttpResponse response) {
+    public void page1(HttpResponse response) {
         response.writeBody("<h1>site1</h1>");
     }
 
     @Mapping("/site2")
-    public void page2(HttpRequest request, HttpResponse response) {
+    public void page2(HttpResponse response) {
         response.writeBody("<h1>site2</h1>");
     }
-
 }
